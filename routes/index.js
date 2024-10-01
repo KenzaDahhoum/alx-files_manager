@@ -10,24 +10,53 @@ const routeController = (app) => {
   app.use('/', router);
 
   // App Controller
-  router.get('/status', AppController.getStatus);
-  router.get('/stats', AppController.getStats);
+  router.get('/status', (req, res) => {
+    AppController.getStatus(req, res);
+  });
 
-  // User Controller
-  router.post('/users', UsersController.postNew);
-  router.get('/users/me', UsersController.getMe);
+  router.get('/stats', (req, res) => {
+    AppController.getStats(req, res);
+  });
 
-  // Auth Controller
-  router.get('/connect', AuthController.getConnect);
-  router.get('/disconnect', AuthController.getDisconnect);
+  router.post('/users', (req, res) => {
+    UsersController.postNew(req, res);
+  });
 
-  // File Controller
-  router.post('/files', FilesController.postUpload);
-  router.get('/files/:id', FilesController.getShow);
-  router.get('/files', FilesController.getIndex);
-  router.put('/files/:id/publish', FilesController.putPublish);
-  router.put('/files/:id/unpublish', FilesController.putUnpublish);
-  router.post('/files/:id/data', FilesController.getFile);
+  router.get('/connect', (req, res) => {
+    AuthController.getConnect(req, res);
+  });
+
+  router.get('/disconnect', (req, res) => {
+    AuthController.getDisconnect(req, res);
+  });
+
+  router.get('/users/me', (req, res) => {
+    UsersController.getMe(req, res);
+  });
+
+  router.post('/files', (req, res) => {
+    FilesController.postUpload(req, res);
+  });
+
+  router.get('/files/:id', (req, res) => {
+    FilesController.getShow(req, res);
+  });
+
+  router.get('/files', (req, res) => {
+    FilesController.getIndex(req, res);
+  });
+
+  router.put('/files/:id/publish', (req, res) => {
+    FilesController.putPublish(req, res);
+  });
+
+  router.put('/files/:id/unpublish', (req, res) => {
+    FilesController.putUnpublish(req, res);
+  });
+
+  router.post('/files/:id/data', (req, res) => {
+    FilesController.getFile(req, res);
+  });
 };
 
 export default routeController;
