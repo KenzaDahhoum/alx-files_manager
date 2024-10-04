@@ -1,172 +1,47 @@
-Curriculum <br>
-**Short Specialization** <br>
+# Files Manager
 
-# 0x04. Files manager
+[![Coverage Status](https://coveralls.io/repos/github/B3zaleel/alx-files_manager/badge.svg?branch=main)](https://coveralls.io/github/B3zaleel/alx-files_manager?branch=main)
 
-`Back-end` `JavaScript` `ES6` `NoSQL` `MongoDB` `Redis` `NodeJS` `ExpressJS` `Kue`
-
-```
-This project is a summary of this back-end trimester: authentication, NodeJS, MongoDB, Redis, pagination, and background processing.
-
-The objective is to build a simple platform to upload and view files:
-
-* User authentication via a token
-* List all files
-* Upload a new file
-* Change permission of a file
-* View a file
-* Generate thumbnails for images
-```
-
-## Resources
-
-**Read or watch:**
-
-* [Node JS getting started](https://www.nodejs.org/en/docs/guides/getting-started-guide/)
-* [Process API doc](https://www.node.readthedocs.io/en/latest/api/process/)
-* [Express getting started](https://www.expressjs.com/en/starter/installing.html)
-* [Mocha documentation](https://www.mochajs.org)
-* [Nodemon documentation](https://www.github.com/remy/nodemon#nodemon)
-* [MongoDB](https://www.github.com/mongodb/node-mongodb-native)
-* [Bull](https://www.github.com/OptimalBits/bull)
-* [Image thumbnail](https://www.npmjs.com/package/image-thumbnail)
-* [Mime-Types](https://www.npmjs.com/package/mime-types)
-* [Redis](https://www.github.com/redis/node-redis)
+A simple file management API built with Express, MongoDB, Redis, Bull, and Node.js.
 
 ## Requirements
 
-* Allowed editors: `vi`, `vim`, `emacs` `Visual Studio Code`
-* Files interpreted/compiled on Ubuntu 18.04 LTS using `node` (version 12.x.x)
-* All files should end with a new line
-* Mandatory `README.md` file
-* Code use the `js` extension
-* Code verified against lint using ESLint
+### Applications
 
-## Provided files
++ Node.js
++ Yarn (the package manager/resource negotiator)
 
-`package.json`
+### APIs
 
-<details>
-  <summary>Click to show/hide file contents</summary>
++ A Google API should be created with at least an email sending scope and a valid URL (e.g.; `http://localhost:5000/`) should be one of the redirect URIs. The `credentials.json` file should be stored in the root directory of this project.
 
-  ```json
+### Environment Variables
 
-  {
-    "name": "files_manager",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      "lint": "./node_modules/.bin/eslint",
-      "check-lint": "lint [0-9]*.js",
-      "start-server": "nodemon --exec babel-node --presets @babel/preset-env ./server.js",
-      "start-worker": "nodemon --exec babel-node --presets @babel/preset-env ./worker.js",
-      "dev": "nodemon --exec babel-node --presets @babel/preset-env",
-      "test": "./node_modules/.bin/mocha --require @babel/register --exit"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-      "bull": "^3.16.0",
-      "chai-http": "^4.3.0",
-      "express": "^4.17.1",
-      "image-thumbnail": "^1.0.10",
-      "mime-types": "^2.1.27",
-      "mongodb": "^3.5.9",
-      "redis": "^2.8.0",
-      "sha1": "^1.1.1",
-      "uuid": "^8.0.0"
-    },
-    "devDependencies": {
-      "@babel/cli": "^7.8.0",
-      "@babel/core": "^7.8.0",
-      "@babel/node": "^7.8.0",
-      "@babel/preset-env": "^7.8.2",
-      "@babel/register": "^7.8.0",
-      "chai": "^4.2.0",
-      "chai-http": "^4.3.0",
-      "mocha": "^6.2.2",
-      "nodemon": "^2.0.2",
-      "eslint": "^6.4.0",
-      "eslint-config-airbnb-base": "^14.0.0",
-      "eslint-plugin-import": "^2.18.2",
-      "eslint-plugin-jest": "^22.17.0",
-      "request": "^2.88.0",
-      "sinon": "^7.5.0"
-    }
-  }
-  ```
-</details>
+The required environment variables should be stored in a file named `.env` and each line should have the format `Name=Value`. The table below lists the environment variables that will be used by this server:
 
-`.eslintrc.js`
+| Name | Required | Description |
+|:-|:-|:-|
+| GOOGLE_MAIL_SENDER | Yes | The email address of the account responsible for sending emails to users. |
+| PORT | No (Default: `5000`)| The port the server should listen at. |
+| DB_HOST | No (Default: `localhost`)| The database host. |
+| DB_PORT | No (Default: `27017`)| The database port. |
+| DB_DATABASE | No (Default: `files_manager`)| The database name. |
+| FOLDER_PATH | No (Default: `/tmp/files_manager` (Linux, Mac OS X) & `%TEMP%/files_manager` (Windows)) | The local folder where files are saved. |
 
-<details>
-  <summary>Click to show/hide file contents</summary>
+## Installation
 
-  ```javascript
++ Clone this repository and switch to the cloned repository's directory.
++ Install the packages using `yarn install` or `npm install`.
 
-  module.exports = {
-    env: {
-      browser: false,
-      es6: true,
-      jest: true,
-    },
-    extends: [
-      'airbnb-base',
-      'plugin:jest/all',
-    ],,
-    globals: {
-      Atomics: 'readonly',
-      SharedArrayBuffer: 'readonly',
-    },
-    parserOptions: {
-      ecmaVersion: 2018,
-      sourceType: 'module',
-    },
-    plugins: ['jest'],
-    rules: {
-      'max-classes-per-file': 'off',
-      'no-underscore-dangle': 'off',
-      'no-console': 'off',
-      'no-shadow': 'off',
-      'no-restricted-syntax': [
-        'error',
-	'LabeledStatement',
-	'withStatement',
-      ],
-    },
-    overrides:[
-      {
-        files: ['*.js'],
-	excludedFiles: 'babel.config.js',
-      }
-    ]
-  };
-  ```
-</details>
+## Usage
 
-`babel.config.js`
+Start the Redis and MongoDB services on your system and run `yarn start-server` or `npm run start-server`.
 
-<details>
-  <summary>Click to show/hide file contents</summary>
+## Tests
 
-  ```javascript
++ Create a separate `.env` file for the tests named `.env.test` and store the value of the environment variables for the testing event in it.
++ Run `yarn test` or `npm run test` to execute the E2E tests.
 
-  module.exports = {
-    presets: [
-      [
-        '@babel/preset-env',
-	{
-	  targets: {
-	    node: 'current',
-	  },
-	},
-      ],
-    ],
-  };
-  ```
-</details>
+## Documentation
 
-### and...
-
-Don't forget to run `$ npm install` when you have the `package.json`
++ TODO: Generate OpenAPI documentation with [**apidoc**](https://www.npmjs.com/package/apidoc).
