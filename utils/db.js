@@ -8,12 +8,18 @@ const url = `mongodb://${host}:${port}/`;
 class DBClient {
   constructor() {
     this.db = null;
-    MongoClient.connect(url, { useUnifiedTopology: true }, (error, client) => {
-      if (error) console.log(error);
-      this.db = client.db(database);
-      this.db.createCollection('users');
-      this.db.createCollection('files');
-    });
+    MongoClient.connect(url, { useUnifiedTopology: true })
+      .then(client => {
+        console.log('Connected to MongoDB');
+        this.db = client.db(database);
+        return Promise.all([
+          this.db.createCollection('users').catch(err => console.error('Error creating users collection:', err)),
+          this.db.createCollection('files').catch(err => console.error('Error creating files collection:', err))
+        ]);
+      })
+      .catch(error => {
+        console.error('Failed to connect to MongoDB:', error);
+      });
   }
 
   isAlive() {
@@ -38,3 +44,4 @@ class DBClient {
 
 const dbClient = new DBClient();
 export default dbClient;
+

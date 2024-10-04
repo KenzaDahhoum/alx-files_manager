@@ -9,6 +9,7 @@ class AppController {
       response.status(200).send({ redis, db });
     } catch (error) {
       console.log(error);
+      response.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -19,8 +20,10 @@ class AppController {
       response.status(200).send({ users, files });
     } catch (error) {
       console.log(error);
+      response.status(500).send({ error: 'Internal Server Error' });
     }
   }
 }
 
 export default AppController;
+
