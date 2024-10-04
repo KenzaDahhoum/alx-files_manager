@@ -8,10 +8,6 @@ class RedisClient {
     this.client.on('error', (error) => {
       console.log(`Redis client not connected to the server: ${error.message}`);
     });
-    
-    this.client.on('connect', () => {
-      console.log('Connected to Redis');
-    });
   }
 
   isAlive() {
@@ -32,5 +28,5 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
-export default redisClient;
 
+export default redisClient;
